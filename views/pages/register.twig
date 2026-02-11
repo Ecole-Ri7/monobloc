@@ -1,0 +1,47 @@
+{% extends "../layouts/base.twig" %}
+
+{% block style %}
+    <link rel="stylesheet" href="./css/subscribe.css">
+{% endblock %}
+
+{% block main %}
+    <main>
+        <section>
+            <div>
+                <h2>Formulaire d'inscription</h2>
+            </div>
+            <div>
+                <form method="post">
+                    <div>
+                        <label for="name">Votre nom</label>
+                        <input type="text" id="name" name="lastName">
+                    </div>
+                    <div>
+                        <label for="firstname">Votre Prénom</label>
+                        <input type="text" id="firstname" name="firstName">
+                    </div>
+
+                    <div>
+                        <label for="mail">Votre Mail</label>
+                        <input type="email" name="mail" id="mail">
+                    </div>
+                    <div>
+                        <label for="password">Votre Mot de passe</label>
+                        <input type="password" id="password" name="password">
+                    </div>
+                    <div>
+                        <label for="confirm_password">Confirmez votre mot de passe</label>
+                        <input type="password" id="confirm_password" name="confirmPassword">
+                    </div>
+
+                    <div>
+                        <button type="submit">Envoyer</button>
+                    </div>
+                </form>
+                {% if error %}
+                    <p>{{error}}</p>
+                {% endif %}
+            </div>
+        </section>
+    </main>
+{% endblock %}

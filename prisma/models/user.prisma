@@ -1,0 +1,8 @@
+model User{
+  id Int @id @default(autoincrement())
+  firstName String
+  lastName String @db.VarChar(40)
+  password String
+  mail String
+  books Book[]
+}
