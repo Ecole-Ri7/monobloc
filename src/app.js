@@ -6,7 +6,7 @@ import { userRouter } from "./routes/userRouter.js"
 const app = express()
 app.use(express.static("./public"))
 app.use(express.urlencoded({extended:true}))
-app.use(bookRouter)
+app.use("books", bookRouter)
 app.use(userRouter)
 
 app.listen(process.env.PORT, (error)=>{
