@@ -13,7 +13,7 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }))
-app.use("books", bookRouter)
+app.use("/books", bookRouter)
 app.use(userRouter)
 
 app.listen(process.env.PORT, (error)=>{

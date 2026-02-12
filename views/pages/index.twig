@@ -1,13 +1,22 @@
 {% extends "../layouts/base.twig" %}
 
 {% block style %}
-    <link rel="stylesheet" href="./css/main.css">
+	<link rel="stylesheet" href="./css/main.css">
 {% endblock %}
 
 {% block main %}
-    <p>Bonjour {{ user.firstName }}</p>
+	<p>Bonjour {{ user.firstName }}</p>
+	<form action="/books/add" method="post">
+		<label for="title">Titre</label>
+		<input type="text" name="title" id="title">
+		<label for="author">Auteur</label>
+		<input type="text" name="author" id="author">
+		<button>Ajouter</button>
+	</form>
+    {% if error %}
+        <p>{{error}}</p>
+    {% endif %}
 {% endblock %}
-
 {% block script %}
-    <script></script>
+	<script></script>
 {% endblock %}
