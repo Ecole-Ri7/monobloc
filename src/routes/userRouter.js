@@ -1,9 +1,13 @@
 import express from "express"
-import { home, getRegister, postRegister } from "../controllers/userController.js";
+import { home, getRegister, postRegister, getLogin, postLogin } from "../controllers/userController.js";
+import { authguard } from "../services/authguard.js";
 
 export const userRouter = express.Router();
 
-userRouter.get("/", home);
+userRouter.get("/", authguard, home);
 
 userRouter.get("/register", getRegister)
 userRouter.post("/register", postRegister)
+
+userRouter.get("/login", getLogin)
+userRouter.post("/login", postLogin)

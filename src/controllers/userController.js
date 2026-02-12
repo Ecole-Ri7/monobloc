@@ -2,15 +2,17 @@ import { PrismaClient } from "../../generated/prisma/client.js";
 import { adapter } from "../../prisma/adapter.js";
 import { hashPasswordExtension } from "../../prisma/extensions/hashPasswordExtension.js"
 const prisma = new PrismaClient({ adapter }).$extends(hashPasswordExtension)
+import bcrypt from "bcrypt"
 
 export function home(req, res){
     res.render("pages/index.twig", 
         { 
-            title:"Yolo"
+            title : "Yolo",
+            user: req.user
         }
     )
 }
-
+ 
 export async function getRegister(req, res){
     res.render("pages/register.twig",
         {
@@ -60,9 +62,43 @@ export async function postRegister(req, res){
     }
 }
 
+export function getLogin(req, res){
+    res.render("pages/login.twig",
+        {
+            title:"Connexion"
+        }
+    )
+}
+
 export async function postLogin(req, res){
-    // Récupérer l'utilisateur par son mail
-    // Vérifier la correspondance des mots de passe grâce à bcrypt.compare
-    // Si tout est bon, console.log("connecté")
-    // Sinon, afficher une erreur comme lors de l'inscription
+    try{
+        // Retourne soit l'utilisateur sous forme d'objet soit null
+        const user = await prisma.user.findUnique({
+            where : {
+                mail : req.body.mail
+            }
+        })
+        // Si user est différent de false ou de null
+        if(user){
+            if(await bcrypt.compare(req.body.password, user.password)){
+                req.session.user = user.id
+                res.redirect("/")
+            }
+            else{
+                throw new Error("Mot de passe incorrect")
+            }
+        }
+        else{
+            throw new Error("Mail incorrect")
+        }
+    }
+    catch(error){
+        console.error(error);
+        res.render("pages/login.twig",
+            {
+                title:"Connexion",
+                error: "Identifiants invalides"
+            }
+        )
+    }
 }

@@ -1,0 +1,14 @@
+{% extends "../layouts/base.twig" %}
+
+{% block main %}
+    <form action="" method="POST">
+        <label for="mail">Votre mail</label>
+        <input id="mail" type="mail" name="mail">
+        <label for="password">Votre mot de passe</label>
+        <input id="password" type="password" name="password">
+        <button>Se connecter</button>
+    </form>
+    {% if error %}
+        <p>{{ error }}</p>
+    {% endif %}
+{% endblock %}

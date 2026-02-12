@@ -3,6 +3,6 @@ model User{
   firstName String
   lastName String @db.VarChar(40)
   password String
-  mail String
+  mail String @unique
   books Book[]
 }
