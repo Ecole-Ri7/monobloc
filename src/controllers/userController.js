@@ -4,13 +4,26 @@ import { hashPasswordExtension } from "../../prisma/extensions/hashPasswordExten
 const prisma = new PrismaClient({ adapter }).$extends(hashPasswordExtension)
 import bcrypt from "bcrypt"
 
-export function home(req, res){
-    res.render("pages/index.twig", 
-        { 
-            title : "Yolo",
-            user: req.user
-        }
-    )
+export async function home(req, res){
+    try{
+        const books = await prisma.book.findMany()
+        res.render("pages/index.twig", 
+            { 
+                title : "Yolo",
+                user: req.user,
+                books
+            }
+        )
+    }
+    catch(error){
+        res.render("pages/index.twig", 
+            { 
+                title : "Yolo",
+                user: req.user,
+                error: "Une erreur est survenue lors de la récupération des livres"
+            }
+        )
+    }
 }
  
 export async function getRegister(req, res){

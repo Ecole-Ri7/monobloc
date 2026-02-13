@@ -5,7 +5,8 @@
 {% endblock %}
 
 {% block main %}
-	<p>Bonjour {{ user.firstName }}</p>
+	<p>Bonjour
+		{{ user.firstName }}</p>
 	<form action="/books/add" method="post">
 		<label for="title">Titre</label>
 		<input type="text" name="title" id="title">
@@ -13,9 +14,33 @@
 		<input type="text" name="author" id="author">
 		<button>Ajouter</button>
 	</form>
-    {% if error %}
-        <p>{{error}}</p>
-    {% endif %}
+	{% if books %}
+		{% for book in books %}
+			<div>
+				<form action="/books/{{book.id}}/update" method={% if update == book.id  %} "POST" {% else %} "GET" {% endif %}>
+					{% if update == book.id %}
+						<input type="text" name="title" placeholder="Titre du livre" value={{book.title}}>
+						<input type="text" name="author" placeholder="Auteur" value={{book.author}}>
+					{% else %}
+						<h2>{{ book.title }}</h2>
+						<p>{{ book.author }}</p>
+					{% endif %}
+					{# form en GET ou POST suivant la method #}
+					<button>
+						{% if update == book.id  %}Valider
+						{% else %}Modifier{% endif %}
+					</button>
+				</form>
+				<form action="/books/{{book.id}}/delete" method="POST">
+					<button>Supprimer</button>
+				</form>
+			</div>
+		{% endfor %}
+	{% endif %}
+
+	{% if error %}
+		<p>{{error}}</p>
+	{% endif %}
 {% endblock %}
 {% block script %}
 	<script></script>
